@@ -3,16 +3,17 @@ from typing import List
 from copy import deepcopy
 
 import click
-from tqdm import tqdm
 
 from read_write import output_result, parse_input
 from participant import Participant
+from visualize import visualize
 
 
 @click.command()
 @click.option("--input_path", help="Path to input file")
 @click.option("--output_dir", default=None, help="Path to output dir file. Default will only print result in stdout")
-def main(input_path, output_dir):
+@click.option('--export_graph', '-g', is_flag=True, help="Output a graph")
+def main(input_path, output_dir, export_graph):
 	participants_original: List[Participant] = parse_input(input_path)
 
 	counter = 1
@@ -40,13 +41,18 @@ def main(input_path, output_dir):
 				dones.append(current)
 			else:
 				participants.append(current)
-   
+
+			random.shuffle(participants) # Not necessary but adds a bit of randomness to the solution
+
 		if participants == []:
 			break
 		
 		counter += 1
 
 	output_result(dones, output_dir)
+	
+	if export_graph:
+		visualize(dones)
 
 
 if __name__ == "__main__":

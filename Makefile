@@ -20,7 +20,7 @@ install_local_deps: install_test_deps install_src_deps
 .PHONY: test
 test:
 	coverage run -m pytest secret_santa/
-	coverage report -m
+	coverage report -m --omit="*/test*"
 
 .PHONY: type-check
 type-check:

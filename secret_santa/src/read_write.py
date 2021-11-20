@@ -12,7 +12,12 @@ def parse_input(input_path: str) -> List[Participant]:
 
     participants: List[Participant] = []
     for l in lines:
-        name, group = l.split(",")
+        name: str
+        group: Optional[str]
+        try:
+            name, group = l.split(",")
+        except ValueError:
+            name, group = l, None
         participants.append(Participant(name=name, group=group))
 	
     return participants
@@ -20,7 +25,7 @@ def parse_input(input_path: str) -> List[Participant]:
 
 def output_result(participants: List[Participant], output_dir: Optional[str]) -> None:
 
-    str_list: List[str] = map(str, participants)
+    str_list: map[str] = map(str, participants)
     result_str: str = "\n".join(str_list)
     
     if output_dir:
