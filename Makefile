@@ -5,7 +5,8 @@ install_deps:
 	pip install -r requirements.txt
 
 test:
-	python -m pytest
+	coverage run -m pytest secret_santa/
+	coverage report -m
 
 type-check:
 	python -m mypy secret_santa/src

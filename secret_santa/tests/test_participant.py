@@ -72,7 +72,7 @@ class TestAssignGiver:
         assert p.assign_giver(participants) is None
         assert p.giver is None
 
-    def test_should_not_assign_giver_if_has_giver(self):
+    def test_should_not_assign_giver_if_giver_has_receiver(self):
         p = Participant(name="some_name")
         giver = Participant(name="some_other_name_1")
         receiver = Participant(name="some_other_name_2")
@@ -82,12 +82,12 @@ class TestAssignGiver:
         assert p.assign_giver(participants) is None
         assert p.giver == None
 
-    def test_should_not_assign_giver_if_giver_has_receiver(self):
+    def test_should_not_assign_giver_if_has_giver(self):
         p = Participant(name="some_name")
         giver = Participant(name="some_other_name_1")
         p.giver = giver
         participants = [Participant(name="some_other_name_2")]
-        
+
         assert p.assign_giver(participants) is None
         assert p.giver == giver
 

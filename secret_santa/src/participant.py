@@ -29,11 +29,9 @@ class Participant:
 	def _get_first_possible_giver(self, participants: List["Participant"]) -> Optional["Participant"]:
 
 		for p in participants:
-			if self == p:
+			if self.name == p.name:
 				continue
 			if self.group is not None and self.group == p.group:
-				continue
-			if self.giver is not None:
 				continue
 			if p.receiver is not None:
 				continue
@@ -41,7 +39,3 @@ class Participant:
 				continue 
 			return p
 		return None
-
-	
-	def __str__(self) -> str:
-		return f"{self.name}, {self.group}"
