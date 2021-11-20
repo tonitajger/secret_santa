@@ -1,17 +1,21 @@
 .PHONY: run
 run:
-	python secret_santa/src/main.py
+	python secret_santa/src/main.py --input_path input/participants.txt
 
-.PHONY: install-src-deps
-install-src-deps:
+.PHONY: run_write_output
+run_write_output:
+	python secret_santa/src/main.py --input_path input/participants.txt --output_dir output/results
+
+.PHONY: install_src_deps
+install_src_deps:
 	pip install -r secret_santa/src/requirements.txt
 
-.PHONY: install-test-deps
+.PHONY: install_test_deps
 install-test-deps:
 	pip install -r secret_santa/tests/requirements.txt
 
-.PHONY: install-local-deps
-install-local-deps: install-test-deps install-src-deps
+.PHONY: install_local_deps
+install_local_deps: install_test_deps install_src_deps
 
 .PHONY: test
 test:
