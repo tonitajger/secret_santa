@@ -12,8 +12,8 @@ def parse_input(input_file: str) -> Dict[str, str]:
 
 	with open(input_file, "r") as f:
 		lines: List[str] = f.read().splitlines()
-
-	participants: List[Participant] = [Participant(l) for l in lines]
+		
+	participants: List[Participant] = [Participant(*l.split(",")) for l in lines]
 	return participants
 
 
