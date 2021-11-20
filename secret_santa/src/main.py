@@ -1,23 +1,14 @@
-import os
 import random
-from typing import Dict, List, Tuple
+from typing import List
 from copy import deepcopy
 
 from tqdm import tqdm
 
+from parse_input import parse_input
 from participant import Participant
 
 
-def parse_input(input_file: str) -> Dict[str, str]:
-
-	with open(input_file, "r") as f:
-		lines: List[str] = f.read().splitlines()
-		
-	participants: List[Participant] = [Participant(*l.split(",")) for l in lines]
-	return participants
-
-
-def main_giver():
+def main():
 	participants_original: List[Participant] = parse_input("./input/participants.txt")
 
 	counter = 1
@@ -35,7 +26,7 @@ def main_giver():
 			if giver is None:
 				break
 
-			if current.is_done():
+			if current.is_done:
 				dones.append(current)
 			else:
 				participants.append(current)
@@ -50,4 +41,4 @@ def main_giver():
 
 if __name__ == "__main__":
 	for i in tqdm(range(int(1e3))):
-		main_giver()
+		main()

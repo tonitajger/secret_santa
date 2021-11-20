@@ -2,20 +2,22 @@ from typing import List, Optional
 
 
 class Participant:
-	def __init__(self, name: str, group: Optional[str] = None) -> None:
+	def __init__(self, name: str, group: Optional[str] = None, giver: Optional["Participant"] = None,
+				 receiver: Optional["Participant"] = None) -> None:
 		self.name: str = name
 		self.group: Optional[str] = group
-		self.giver: Optional[Participant] = None
-		self.receiver: Optional[Participant] = None
+		self.giver: Optional[Participant] = giver
+		self.receiver: Optional[Participant] = receiver
 	
+	@property
 	def is_done(self) -> bool:
 		return self.giver and self.receiver
 	
 	def assign_giver(self, participants: List["Participant"]) -> Optional["Participant"]:
 		if self.giver:
-			raise Exception(f"Error while trying to assign a giver to {self} which already has giver {self.giver}.")
+			return
 
-		giver: Optional = self._get_first_possible_giver(participants)
+		giver: Optional["Participant"] = self._get_first_possible_giver(participants)
 		if giver is None:
 			return
 		
@@ -27,13 +29,15 @@ class Participant:
 	def _get_first_possible_giver(self, participants: List["Participant"]) -> Optional["Participant"]:
 
 		for p in participants:
+			if self == p:
+				continue
 			if self.group is not None and self.group == p.group:
 				continue
 			if self.giver is not None:
 				continue
 			if p.receiver is not None:
 				continue
-			if p.giver is not None and p.giver == self:
+			if (p.giver is not None and p.giver == self) or (self.receiver is not None and self.receiver == p):
 				continue 
 			return p
 
