@@ -14,7 +14,7 @@ from participant import Participant
 @click.option('--files_to_send', '-fs', is_flag=True, help="Include flag to generate all files to send to participants.")
 @click.option('--export_graph', '-g', is_flag=True, help="Output a graph.")
 @click.option('--anonymize', '-a', is_flag=True, help="Anonymize graph and result file. Note that files to send will not be anonymized")
-def main(input_path, output_results, files_to_send, export_graph, anonymize):
+def main(input_path: str, output_results: bool, files_to_send: bool, export_graph: bool, anonymize: bool) -> None:
 	participants_original: List[Participant] = parse_input(input_path)
 
 	counter = 1

@@ -1,6 +1,6 @@
 from datetime import datetime
-from os import mkdir, path, umask
-from typing import List, Optional
+from os import mkdir, path
+from typing import Dict, List, Optional
 
 import graphviz
 
@@ -23,6 +23,17 @@ def parse_input(input_path: str) -> List[Participant]:
         participants.append(Participant(name=name, group=group))
 	
     return participants
+
+
+def parse_phone_book(input_path: str) -> Dict[str, str]: 
+    with open(input_path, "r") as f:
+        lines: List[str] = f.read().splitlines()
+
+    phones: Dict[str, str] = dict()
+    for l in lines:
+        name, nr = l.split(",")
+        phones[nr] = name
+    return phones
 
 
 def generate_output_dir() -> str:
