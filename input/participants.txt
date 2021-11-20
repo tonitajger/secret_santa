@@ -1,0 +1,6 @@
+Anders,0
+Bingxin,0
+Cecilia,1
+Johan,1
+Matilda,2
+Tony,2
