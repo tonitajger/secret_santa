@@ -4,7 +4,7 @@ from copy import deepcopy
 
 import click
 
-from read_write import output_result, parse_input
+from read_write import output_files_to_send, output_result, parse_input
 from participant import Participant
 from visualize import visualize
 
@@ -12,8 +12,9 @@ from visualize import visualize
 @click.command()
 @click.option("--input_path", help="Path to input file")
 @click.option("--output_dir", default=None, help="Path to output dir file. Default will only print result in stdout")
-@click.option('--export_graph', '-g', is_flag=True, help="Output a graph")
-def main(input_path, output_dir, export_graph):
+@click.option('--files_to_send', '-fs', is_flag=True, help="Include flag to generate all files to send to participants.")
+@click.option('--export_graph', '-g', is_flag=True, help="Output a graph.")
+def main(input_path, output_dir, files_to_send, export_graph):
 	participants_original: List[Participant] = parse_input(input_path)
 
 	counter = 1
@@ -49,8 +50,12 @@ def main(input_path, output_dir, export_graph):
 		
 		counter += 1
 
-	output_result(dones, output_dir)
-	
+	if output_dir:
+		output_result(dones, output_dir)
+
+	if files_to_send:
+		output_files_to_send(dones, output_dir)
+
 	if export_graph:
 		visualize(dones)
 

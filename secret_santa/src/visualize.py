@@ -11,6 +11,6 @@ def visualize(participants: List[Participant], output_path="output/visualization
     
     for p in participants:
         if p.giver:
-            dot.edge(p.name, p.giver.name)
+            dot.edge(p.name, p.receiver.name)
     
     dot.render(output_path)
