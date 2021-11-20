@@ -66,6 +66,9 @@ def output_files_to_send(participants: List[Participant], output_dir: str) -> No
         output_path: str = path.join(sub_dir, p.name + ".txt")
 
         with open(output_path, "w") as f:
+            if p.receiver is None:
+                return
+
             f.write(f"Hej {p.name}!\nDu ska köpa en present till {p.receiver.name} för max 200kr. Lycka till!\nMVH Tomten")
 
 
@@ -78,7 +81,7 @@ def visualize(participants: List[Participant], output_dir: str) -> None:
         dot.node(p.name, p.name)
     
     for p in participants:
-        if p.giver:
+        if p.receiver:
             dot.edge(p.name, p.receiver.name)
     
     dot.render(path.join(subdir, "secret_santa_graph.gv"))

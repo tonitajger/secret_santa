@@ -30,14 +30,15 @@ def main(phone_book_path: str, run_id: str, dry_run: bool) -> None:
 
     batch_params.parameters['message'] = message_dict
 
+    print(batch_params.parameters['message'])
+    print(batch_params.recipients)
     if dry_run:
-        print(batch_params.parameters['message'])
-        print(batch_params.recipients)
         client.create_batch_dry_run(batch_params)
-        
-    else: 
-        input("Are you sure you want to send SMS messsages?!")
-        client.create_batch(batch_params)
 
+    else: 
+        run_input: str = input("Are you sure you want to send SMS messsages?! [y/n]")
+        if run_input.lower() == "y":
+            client.create_batch(batch_params)
+        
 if __name__ == '__main__':
     main()
