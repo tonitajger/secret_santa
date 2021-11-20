@@ -1,6 +1,6 @@
-Anders,0
-Bingxin,0
-Cecilia,1
-Johan,1
-Matilda,2
-Tony,2
+Albert,0
+Bertil,0
+Cinderella,1
+Josefin,1
+Markus,2
+Teodor,2
