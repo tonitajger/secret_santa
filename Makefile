@@ -6,3 +6,10 @@ install_deps:
 
 test:
 	python -m pytest
+
+type-check:
+	python -m mypy secret_santa/src
+
+build:
+	test
+	type-check

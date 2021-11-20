@@ -11,15 +11,15 @@ class Participant:
 	
 	@property
 	def is_done(self) -> bool:
-		return self.giver and self.receiver
+		return self.giver is not None and self.receiver is not None
 	
 	def assign_giver(self, participants: List["Participant"]) -> Optional["Participant"]:
 		if self.giver:
-			return
+			return None
 
 		giver: Optional["Participant"] = self._get_first_possible_giver(participants)
 		if giver is None:
-			return
+			return None
 		
 		self.giver = giver
 		giver.receiver = self
@@ -40,10 +40,8 @@ class Participant:
 			if (p.giver is not None and p.giver == self) or (self.receiver is not None and self.receiver == p):
 				continue 
 			return p
+		return None
 
 	
 	def __str__(self) -> str:
 		return f"{self.name}, {self.group}"
-	
-	def __eq__(self, other: "Participant") -> bool:
-		return self.name == other.name

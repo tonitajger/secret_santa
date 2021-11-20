@@ -1,6 +1,5 @@
 import pytest
 
-
 from secret_santa.src.participant import Participant
 
 
