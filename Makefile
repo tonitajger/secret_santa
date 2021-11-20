@@ -1,10 +1,6 @@
 .PHONY: run
 run:
-	python secret_santa/src/main.py --input_path input/participants.txt
-
-.PHONY: run_write_output
-run_write_output:
-	python secret_santa/src/main.py --input_path input/participants.txt --output_dir output/results
+	python secret_santa/src/main.py --input_path input/participants.txt -fs -g -r
 
 .PHONY: install_src_deps
 install_src_deps:

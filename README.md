@@ -1,2 +1,3 @@
 # secret_santa
-Secret santa random sampler
+
+Secret santa random generator
