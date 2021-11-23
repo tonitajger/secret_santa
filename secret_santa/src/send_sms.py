@@ -1,17 +1,22 @@
 from os import environ, walk
-
 from typing import Dict, Optional
+
 import click
+from click.termui import prompt
 import clx.xms
+from twilio.rest import Client
 
 from input_output import parse_phone_book
 
 
+TWILIO_PHONE_NUMBER = "+13073140448"
+
+
 @click.command()
-@click.option("--phone_book_path", help="Path to phone number input file")
-@click.option("--run_id", default=None, help="id/timestamp of the generated result. E.g 20211120T231238")
-@click.option("--dry_run", "-d", is_flag=True)
-def main(phone_book_path: str, run_id: Optional[str], dry_run: bool) -> None:
+@click.option("--phone_book_path", prompt=True, help="Path to phone number input file")
+@click.option("--run_id", prompt=True, default=None, help="id/timestamp of the generated result. E.g 20211120T231238")
+@click.option("--dry_run", "-d", prompt=True, is_flag=True)
+def main_sinch(phone_book_path: str, run_id: Optional[str], dry_run: bool) -> None:
 
     phones: Dict[str, str] = parse_phone_book(phone_book_path) 
 
@@ -38,9 +43,37 @@ def main(phone_book_path: str, run_id: Optional[str], dry_run: bool) -> None:
         client.create_batch_dry_run(batch_params)
 
     else: 
-        run_input: str = input("Are you sure you want to send SMS messsages?! [y/n]")
-        if run_input.lower() == "y":
-            client.create_batch(batch_params)
+        click.confirm('Do you want to send sms?', abort=True)
+        client.create_batch(batch_params)
+
+
+@click.command()
+@click.option("--phone_book_path", prompt=True, help="Path to phone number input file")
+@click.option("--run_id", prompt=True, default=None, help="id/timestamp of the generated result. E.g 20211120T231238")
+def main_twilio(phone_book_path: str, run_id: Optional[str]) -> None:
+    phones: Dict[str, str] = parse_phone_book(phone_book_path) 
+
+    account_sid = environ['TWILIO_ACCOUNT_SID']
+    auth_token = environ['TWILIO_AUTH_TOKEN']
+    
+    client = Client(account_sid, auth_token)
+
+    click.confirm('Do you want to send sms?', abort=True)
+    for nr, name in phones.items():
+        with open(f"output/{run_id}/files_to_send/{name}.txt", "r") as f:
+            message_str = f.read()
+
+
+        print(f"Sending message to: {name} on phone nr: {nr} ...")
+
+        message = client.messages \
+            .create(
+                body=message_str,
+                from_=TWILIO_PHONE_NUMBER,
+                to=nr
+            )
+        print(f"Success!")
+
 
 if __name__ == '__main__':
-    main()
+    main_twilio()
